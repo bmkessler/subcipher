@@ -16,16 +16,16 @@ import argparse
 
 DEFAULTCHARSET = [chr(i) for i in range(32,127)]+['\t','\n']
 
-def kthPermutation(items, k):
-    pitems = list(items)
+def kth_permutation(items, k):
+    _items = list(items)
+    if(k=>factorial(len(_items))):
+        raise ValueError('k must be less than factorial(len(items)))')
     result = []
-    for n in reversed(range(len(pitems))):
-        quotient  = k / factorial(n)
-        remainder = k % factorial(n)
-        
-        result.append(pitems[quotient])
-        del pitems[quotient]
-        k = remainder
+    for n in reversed(range(len(_items))):
+        base =  factorial(n)
+        digit  = k / base
+        result.append(_items.pop(digit))
+        k %= base
     return result
     
 def encode_string(instring,code_dict):
@@ -50,11 +50,11 @@ def read_keyfile(keyfile):
     return int(key)
     
 def generate_encoding_dict(key,codesymbols):
-    code_dict = dict((a,b) for a,b in zip(codesymbols,kthPermutation(codesymbols, key)))
+    code_dict = dict((a,b) for a,b in zip(codesymbols,kth_permutation(codesymbols, key)))
     return code_dict
 
 def generate_decoding_dict(key,codesymbols):
-    code_dict = dict((b,a) for a,b in zip(codesymbols,kthPermutation(codesymbols, key)))
+    code_dict = dict((b,a) for a,b in zip(codesymbols,kth_permutation(codesymbols, key)))
     return code_dict
     
 if __name__ == '__main__':
